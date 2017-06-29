@@ -24,7 +24,7 @@ from nmt import (pred_probs, build_model, prepare_data, init_params)
 from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
 import theano
 
-def rescore_model(source_file, glob_pattern, target_file, saveto, models, options, b, normalization_alpha, verbose, alignweights):
+def rescore_model(source_dir, glob_pattern, target_dir, saveto, models, options, b, normalization_alpha, verbose, alignweights):
 
     trng = RandomStreams(1234)
 
@@ -66,11 +66,11 @@ def rescore_model(source_file, glob_pattern, target_file, saveto, models, option
 
         return scores, alignments
 
-    sfiles = get_files(source_file, glob_pattern)
+    sfiles = get_files(source_dir, glob_pattern)
     for sfilepath in sfiles:
         fbasename = os.path.basename(sfilepath)
         print fbasename
-        tfilepath = os.path.join(target_file, fbasename)
+        tfilepath = os.path.join(target_dir, fbasename)
         ofilepath = os.path.join(saveto, fbasename)
         with open(sfilepath, 'r') as sfile, open(tfilepath, 'r') as tfile, open(ofilepath, 'w') as ofile:
             pairs = TextIterator(
@@ -125,7 +125,7 @@ def get_files(directory, fileclue):
         return matches
 
 
-def main(models, source_file, glob_pattern, nbest_file, saveto, b=80,
+def main(models, source_dir, glob_pattern, target_dir, saveto, b=80,
          normalization_alpha=0.0, verbose=False, alignweights=False):
 
     # load model model_options
@@ -138,7 +138,7 @@ def main(models, source_file, glob_pattern, nbest_file, saveto, b=80,
     if not os.path.exists(saveto):
         os.makedirs(saveto)
 
-    rescore_model(source_file, glob_pattern, nbest_file, saveto, models, options, b, normalization_alpha, verbose, alignweights)
+    rescore_model(source_dir, glob_pattern, target_dir, saveto, models, options, b, normalization_alpha, verbose, alignweights)
 
 
 if __name__ == "__main__":
