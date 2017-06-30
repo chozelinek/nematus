@@ -44,7 +44,7 @@ Nematus requires the following packages:
  - Theano >= 0.7 (and its dependencies).
 
 we recommend executing the following command in a Python virtual environment:
-   `pip install numpy numexpr cython tables theano`
+   `pip install numpy numexpr cython tables theano bottle bottle-log paste`
 
 the following packages are optional, but *highly* recommended
 
@@ -107,6 +107,12 @@ GPU, CuDNN 5.1, theano 0.9.0dev5.dev-d5520e, new GPU backend:
   THEANO_FLAGS=mode=FAST_RUN,floatX=float32,device=cuda ./test_train.sh
 
 >> 209.21 sentences/s
+
+GPU, float16, CuDNN 5.1, theano 0.9.0-RELEASE, new GPU backend:
+
+>> 222.28 sentences/s
+
+See SPEED.md for more benchmark results on different hardware and hyperparameter configurations.
 
 USAGE INSTRUCTIONS
 ------------------
@@ -247,6 +253,12 @@ new scores will be appended to the end. `rescore.py` has the same arguments as `
 
 sample models, and instructions on using them for translation, are provided in the `test` directory, and at http://statmt.org/rsennrich/wmt16_systems/
 
+NOTES
+-----
+
+Support for float16 may not be fully functional or efficient using depending on the Theano version and GPU model.
+If you use float16 for training, consider using a lower learning rate for increased numerical stability.
+
 PUBLICATIONS
 ------------
 
@@ -254,6 +266,7 @@ if you use Nematus, please cite the following paper:
 
 Rico Sennrich, Orhan Firat, Kyunghyun Cho, Alexandra Birch, Barry Haddow, Julian Hitschler, Marcin Junczys-Dowmunt, Samuel Läubli, Antonio Valerio Miceli Barone, Jozef Mokry and Maria Nadejde (2017): Nematus: a Toolkit for Neural Machine Translation. In Proceedings of the Software Demonstrations of the 15th Conference of the European Chapter of the Association for Computational Linguistics, Valencia, Spain, pp. 65-68.
 
+```
 @InProceedings{sennrich-EtAl:2017:EACLDemo,
   author    = {Sennrich, Rico  and  Firat, Orhan  and  Cho, Kyunghyun  and  Birch, Alexandra  and  Haddow, Barry  and  Hitschler, Julian  and  Junczys-Dowmunt, Marcin  and  L\"{a}ubli, Samuel  and  Miceli Barone, Antonio Valerio  and  Mokry, Jozef  and  Nadejde, Maria},
   title     = {Nematus: a Toolkit for Neural Machine Translation},
@@ -265,6 +278,7 @@ Rico Sennrich, Orhan Firat, Kyunghyun Cho, Alexandra Birch, Barry Haddow, Julian
   pages     = {65--68},
   url       = {http://aclweb.org/anthology/E17-3017}
 }
+```
 
 the code is based on the following model:
 
